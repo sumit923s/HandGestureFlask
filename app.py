@@ -33,10 +33,12 @@ def video_feed():
 @app.route('/detect-gesture', methods=['POST'])
 def detect_gesture_route():
     frame_data = request.json.get('frame')
+    
     # Process the frame data using detect_gesture function
-    # Example: result = detect_gesture(frame_data)
-    # Return the result
-    return jsonify({'result': 'Detected gesture'})  # Example response
+    detected_gesture = detect_gesture(frame_data)
+    print("Detect check Detect check")
+    # Return the detected gesture
+    return jsonify({'gesture': detected_gesture})
 
 if __name__ == "__main__":
     app.run(debug=True)
