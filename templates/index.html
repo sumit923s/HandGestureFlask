@@ -3,17 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hand Gesture Recognition</title>
+    <title>Hand Gesture Detection</title>
 </head>
-<style >
-    .btn{
-        background-color: aqua;
-        color: black;
-    }
-</style>
 <body>
-    <!-- <button class="btn">Click to access camera</button> -->
-    <img src="{{ url_for('video_feed') }}" alt="Webcam Feed" width="1920" height="900">
+    <h1>Hand Gesture Detection System</h1>
+    <button id="start-camera">Start Camera</button>
+    <div id="video-container">
+        <video id="video" autoplay playsinline></video>
+    </div>
+
+    <script>
+        const startCameraButton = document.getElementById('start-camera');
+        const video = document.getElementById('video');
+
+        startCameraButton.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (err) {
+                console.error('Error accessing camera:', err);
+            }
+        });
+    </script>
 </body>
 </html>
-
