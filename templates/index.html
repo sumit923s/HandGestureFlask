@@ -10,11 +10,14 @@
     <button id="start-camera">Start Camera</button>
     <div id="video-container">
         <video id="video" autoplay playsinline></video>
+        <canvas id="canvas" style="display: none;"></canvas>
     </div>
 
     <script>
         const startCameraButton = document.getElementById('start-camera');
         const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
 
         startCameraButton.addEventListener('click', async () => {
             try {
@@ -23,6 +26,31 @@
             } catch (err) {
                 console.error('Error accessing camera:', err);
             }
+        });
+
+        // Perform hand gesture detection
+        video.addEventListener('play', () => {
+            const loop = async () => {
+                if (!video.paused && !video.ended) {
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const frame = canvas.toDataURL('image/jpeg');
+
+                    // Send frame to Flask server for hand gesture detection
+                    const response = await fetch('/detect-gesture', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ frame })
+                    });
+
+                    const result = await response.json();
+                    // Process result (e.g., display detected gesture on the webpage)
+
+                    setTimeout(loop, 1000 / 30); // Adjust frame rate as needed
+                }
+            };
+            loop();
         });
     </script>
 </body>

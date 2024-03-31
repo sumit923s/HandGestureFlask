@@ -16,7 +16,6 @@ def generate_frames():
         yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame_with_gesture + b'\r\n')
  
-
     cap.release()
 
 @app.route('/')
