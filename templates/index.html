@@ -16,6 +16,21 @@
     <div>
         <h2>Hand Recognition Camera</h2>
     </div>
-    <img src="{{ url_for('video_feed') }}" alt="Webcam Feed" width="1920" height="900">
+    <button class="btn" id="startCamera">Click to start camera</button>
+    <script>
+        const videoElement = document.getElementById('webcamFeed'); // Replace with your video element's ID
+        const startCameraButton = document.getElementById('startCamera');
+      
+        startCameraButton.addEventListener('click', async () => {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            videoElement.srcObject = stream;
+          } catch (error) {
+            console.error('Error accessing camera:', error);
+            // Handle access denial or other errors
+          }
+        });
+      </script>
+      
 </body>
 </html>
